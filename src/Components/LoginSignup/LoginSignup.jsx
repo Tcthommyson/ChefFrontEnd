@@ -19,8 +19,7 @@ const LoginSignup = () => {
                     {action}
                 </div>
                 <div className="underline">
-
-                </div>
+            </div>
             </div>
             {action === "Login" &&
             <div className="inputs">
@@ -67,7 +66,7 @@ const LoginSignup = () => {
                     Login
                 </div>
             </div>
-            
+
         </div>
     )
 }
