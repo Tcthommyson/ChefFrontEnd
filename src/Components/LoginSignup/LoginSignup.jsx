@@ -22,23 +22,22 @@ const LoginSignup = () => {
 
                 </div>
             </div>
+            {action === "Login" &&
             <div className="inputs">
-                {action === "Login" ? <div></div> :
                     <div className="input">
                         <img src={user_icon} alt="" />
                         <input type="firstname" placeholder="First Name" />
                     </div>
-
-                }
             </div>
+            }
+            {action === "Login" &&
             <div className="inputs">
-                {action === "Login" ? <div></div> :
                     <div className="input">
                         <img src={last_icon} alt="" />
                         <input type="lastname" placeholder="Last Name" />
                     </div>
-                }
             </div>
+            }
             <div className="inputs">
                 <div className="input">
                     <img src={email_icon} alt="" />
@@ -68,6 +67,7 @@ const LoginSignup = () => {
                     Login
                 </div>
             </div>
+            
         </div>
     )
 }
