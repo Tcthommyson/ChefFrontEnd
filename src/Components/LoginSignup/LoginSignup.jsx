@@ -21,7 +21,7 @@ const LoginSignup = () => {
                 <div className="underline">
             </div>
             </div>
-            {action === "Login" &&
+            {action === "Sign Up" &&
             <div className="inputs">
                     <div className="input">
                         <img src={user_icon} alt="" />
@@ -29,7 +29,7 @@ const LoginSignup = () => {
                     </div>
             </div>
             }
-            {action === "Login" &&
+            {action === "Sign Up" &&
             <div className="inputs">
                     <div className="input">
                         <img src={last_icon} alt="" />
