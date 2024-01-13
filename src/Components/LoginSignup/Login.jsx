@@ -16,13 +16,21 @@ const Login = () => {
         return regex.test(email);
     }
 
-    const submit = () => {
+    const submit = async () => {
         if(!validateEmail(email)){
             return;
         }
         if(!password){
             return;
         }
+        console.log(email)
+        const response = await fetch("/api/item")
+        console.log(response)
+
+        const content = await response.json()
+
+        console.log(content)
+
     }
 
     return (
