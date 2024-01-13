@@ -8,12 +8,21 @@ import DefNav from "../Navbars/DefNav";
 
 const Login = () => {
 
-    const [action, setAction] = useState("Sign Up");
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
+    function validateEmail(email) { 
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    }
+
     const submit = () => {
-        
+        if(!validateEmail(email)){
+            return;
+        }
+        if(!password){
+            return;
+        }
     }
 
     return (
@@ -29,13 +38,13 @@ const Login = () => {
                     <div className="inputs">
                         <div className="input">
                             <img src={email_icon} alt="" />
-                            <input type="email" placeholder="Email ID" required/>
+                            <input type="email" placeholder="Email ID" onChange={e => setEmail(e.target.value)}/>
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={password_icon} alt="" />
-                            <input type="password" placeholder="Password" required/>
+                            <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
                         </div>
                     </div>
 
@@ -46,7 +55,7 @@ const Login = () => {
                     </div>
 
                     <div className="submit-container">
-                        <div className='submit' onClick={() => { setAction("Sign Up") }}>
+                        <div className='submit' onClick={submit}>
                             Login
                         </div>
                     </div>
