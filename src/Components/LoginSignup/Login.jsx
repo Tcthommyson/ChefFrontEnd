@@ -4,12 +4,17 @@ import './LoginSignup.css'
 import password_icon from '../Assets/password.png';
 import email_icon from '../Assets/email.png';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DefNav from "../Navbars/DefNav";
 
 const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [redir, setRedir] = useState(false);
+    const [message, setMessage] = useState();
+    const navigate = useNavigate()
+
 
     function validateEmail(email) { 
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -23,14 +28,31 @@ const Login = () => {
         if(!password){
             return;
         }
-        console.log(email)
-        const response = await fetch("/api/item")
-        console.log(response)
+        setEmail(String(email).toLowerCase())
+        const response = await fetch("/api/login/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            })
+          })
+          if(!response.ok){ //handle this differently
+            const res = await response.json()
+            if(res.detail === "Incorrect password." || res.detail === "User not found"){
+                setMessage("Incorrect email/password")
+            }
+            else{
+                setMessage("Error")
+            }
+            return
+          }
+          setRedir(true)
+    }
 
-        const content = await response.json()
-
-        console.log(content)
-
+    if(redir) {
+        navigate("/")
     }
 
     return (
@@ -66,6 +88,9 @@ const Login = () => {
                         <div className='submit' onClick={submit}>
                             Login
                         </div>
+                    </div>
+                    <div className="text-center">
+                        <p>{message}</p>
                     </div>
             </div>
         </div>

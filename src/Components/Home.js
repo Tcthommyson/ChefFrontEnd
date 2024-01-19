@@ -1,16 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import DefNav from './Navbars/DefNav';
 import AuthNav from './Navbars/AuthNav';
 import './Home.css'
-
 // Make a navbar component for users that are signed in and one for users that aren't
 // Split this page up into components only later on with the login logic
 
 function Home(props) {
+  const [userid, setUserid] = useState('');
+
+  useEffect(()=>{
+    (async ()=>{
+        const response = await fetch("/api/user", {
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include'
+          })
+        
+        if(response.ok){
+            const content = await response.json()
+            setUserid(content.id)
+        }
+    })()
+  })
+
   return (
     <div>
-       {/*<DefNav></DefNav>*/}
-       <AuthNav></AuthNav>
+       {userid ? <AuthNav></AuthNav> : <DefNav></DefNav>}
         <div class="container pt-3 bg-transparent">
             <div class="row d-flex">
                 <div class="col-auto">

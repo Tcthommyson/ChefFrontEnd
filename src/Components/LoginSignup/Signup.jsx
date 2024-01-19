@@ -6,6 +6,7 @@ import password_icon from '../Assets/password.png';
 import email_icon from '../Assets/email.png';
 import { useState } from "react";
 import DefNav from "../Navbars/DefNav";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
@@ -15,6 +16,8 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [message, setMessage] = useState();
+    const [redir, setRedir] = useState(false)
+    const navigate = useNavigate()
 
 // Should also validate and ensure strong password, and limit requests by redirecting
     function validateEmail(email) { 
@@ -27,7 +30,7 @@ const SignUp = () => {
         return pattern.test(name)
     }
 
-    const submit = () => {
+    const submit = async () => {
         if (!validateName(first)) {
             setMessage("Invalid first name");
             return;
@@ -42,7 +45,36 @@ const SignUp = () => {
             return;
           }
           setEmail(String(email).toLowerCase())
-          setMessage("Submitted")
+          const response = await fetch("/api/register/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                first_name: first,
+                last_name: last,
+                email: email,
+                password: pass
+            })
+          })
+          if(!response.ok){ //handle this differently maybe
+            const res = await response.json()
+            if(res.message === 'Email in use'){
+                setMessage("Email in use, please login.")
+            }
+            else{
+                setMessage("Error")
+            }
+            return
+          }
+          const content = await response.json()
+          console.log(content)
+          setMessage("Submitted... Redirecting to login.")
+          setRedir(true)
+    }
+
+    if(redir){
+        setTimeout(() => {
+            navigate("/login")
+        }, 2000)
     }
 
     return (
