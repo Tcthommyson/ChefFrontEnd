@@ -16,8 +16,8 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [message, setMessage] = useState();
-    const [redir, setRedir] = useState(false)
-    const navigate = useNavigate()
+    const [redir, setRedir] = useState(false);
+    const navigate = useNavigate();
 
 // Should also validate and ensure strong password, and limit requests by redirecting
     function validateEmail(email) { 

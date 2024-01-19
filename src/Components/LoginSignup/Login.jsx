@@ -23,9 +23,11 @@ const Login = () => {
 
     const submit = async () => {
         if(!validateEmail(email)){
+            setMessage("Invalid email.")
             return;
         }
         if(!password){
+            setMessage("Provide a password.")
             return;
         }
         setEmail(String(email).toLowerCase())
