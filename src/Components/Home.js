@@ -5,7 +5,7 @@ import './Home.css'
 // Make a navbar component for users that are signed in and one for users that aren't
 // Split this page up into components only later on with the login logic
 
-function Home(props) {
+function Home() {
   const [userid, setUserid] = useState('');
 
   useEffect(()=>{

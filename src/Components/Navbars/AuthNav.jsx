@@ -50,7 +50,7 @@ function AuthNav() {
             <img src={pfplink} alt="mdo" width="32" height="32" class="rounded-circle"></img>
           </a>
           <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><Link to={'/settings'} className="dropdown-item">Settings</Link></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></hr></li>
             <li><a class="dropdown-item" onClick={logout}>Sign out</a></li>
