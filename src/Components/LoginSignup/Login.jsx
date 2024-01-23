@@ -11,7 +11,6 @@ const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [redir, setRedir] = useState(false);
     const [message, setMessage] = useState();
     const navigate = useNavigate()
 
@@ -50,11 +49,7 @@ const Login = () => {
             }
             return
           }
-          setRedir(true)
-    }
-
-    if(redir) {
-        navigate("/")
+          navigate("/")
     }
 
     return (

@@ -3,18 +3,17 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function AuthNav() {
-  const [redir, setRedir] = useState(false);
   const [pfplink, setPfp] = useState("https://github.com/mdo.png")
   const navigate = useNavigate();
 
   const logout = async () => {
-    const response = await fetch("/api/chef", {
+    const response = await fetch("/api/logout/", {
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
     })
     if(response.ok){
-      const content = await response.json()
-      setRedir(true)
+      navigate('/login')
     }
   }
 
@@ -31,10 +30,6 @@ function AuthNav() {
         }
     })()
   })
-
-  if(redir){
-    navigate('/login')
-  }
 
   return (
     <div>

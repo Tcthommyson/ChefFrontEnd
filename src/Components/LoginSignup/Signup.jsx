@@ -16,7 +16,6 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [message, setMessage] = useState();
-    const [redir, setRedir] = useState(false);
     const navigate = useNavigate();
 
 // Should also validate and ensure strong password, and limit requests by redirecting
@@ -68,11 +67,7 @@ const SignUp = () => {
           const content = await response.json()
           console.log(content)
           setMessage("Submitted... Redirecting to login.")
-          setRedir(true)
-    }
-
-    if(redir){
-        setTimeout(() => {
+          setTimeout(() => {
             navigate("/login")
         }, 1000)
     }
