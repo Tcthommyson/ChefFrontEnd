@@ -1,21 +1,36 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function AuthNav() {
   const [redir, setRedir] = useState(false);
+  const [pfplink, setPfp] = useState("https://github.com/mdo.png")
   const navigate = useNavigate();
 
   const logout = async () => {
-    const response = await fetch("/api/logout/", {
-      method: 'POST',
+    const response = await fetch("/api/chef", {
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
     })
     if(response.ok){
+      const content = await response.json()
       setRedir(true)
     }
   }
+
+  useEffect(()=>{
+    (async ()=>{
+        const response = await fetch("/api/chef", {
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include'
+          })
+        
+        if(response.ok){
+            const content = await response.json()
+            setPfp(content.profilepic)
+        }
+    })()
+  })
 
   if(redir){
     navigate('/login')
@@ -32,7 +47,7 @@ function AuthNav() {
         </ul>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"></img>
+            <img src={pfplink} alt="mdo" width="32" height="32" class="rounded-circle"></img>
           </a>
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="#">Settings</a></li>

@@ -10,7 +10,7 @@ function Home(props) {
 
   useEffect(()=>{
     (async ()=>{
-        const response = await fetch("/api/user", {
+        const response = await fetch("/api/user", { //change this so that its less requests, can send data to stuff like authnav
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
           })
@@ -21,7 +21,7 @@ function Home(props) {
         }
     })()
   })
-
+  //separate the search bar into another component
   return (
     <div>
        {userid ? <AuthNav></AuthNav> : <DefNav></DefNav>}
