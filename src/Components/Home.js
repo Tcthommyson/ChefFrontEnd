@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(()=>{
     (async ()=>{
-        const response = await fetch("/api/user", { //change this so that its less requests, can send data to stuff like authnav
+        const response = await fetch("/api/user", { //change this so that its less requests, can send data to stuff like authnav. Also fix multiple renders and requests?
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
           })

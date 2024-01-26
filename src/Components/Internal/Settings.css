@@ -1,3 +1,10 @@
 .settingform label {
     color: white
 }
+.settingform div {
+    color: wheat;
+}
+.delbutton {
+    background-color: red;
+    color: black;
+}
