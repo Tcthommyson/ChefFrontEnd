@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Dropdown, DropdownButton, Container, Row, Col, Form, FormControl } from 'react-bootstrap';
 import DefNav from './Navbars/DefNav';
 import AuthNav from './Navbars/AuthNav';
 import './Home.css'
@@ -7,6 +8,8 @@ import './Home.css'
 
 function Home() {
   const [userid, setUserid] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dropdownTitle, setDropdownTitle] = useState('Search by...');
 
   useEffect(()=>{
     (async ()=>{
@@ -22,31 +25,44 @@ function Home() {
     })()
   })
   //separate the search bar into another component
+
+  const handleSearch = (event) => {
+      event.preventDefault();
+      console.log(searchTerm); // replace this with your search logic
+  };
+
   return (
-    <div>
-       {userid ? <AuthNav></AuthNav> : <DefNav></DefNav>}
-        <div class="container pt-3 bg-transparent">
-            <div class="row d-flex">
-                <div class="col-auto">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                    Search by...
-                    </button>
-                    <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Name</a></li>
-                    <li><a class="dropdown-item" href="#">Chef Name</a></li>
-                    <li><a class="dropdown-item" href="#">Cuisine</a></li>
-                    </ul>
-                </div>
-                </div>
-                <div class="col-auto flex-fill">
-                <form role="search">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-                </form>
-                </div>
-            </div>
-        </div>
-    </div>
+      <>
+          {userid ? <AuthNav /> : <DefNav />}
+          <Container className="pt-3 bg-transparent">
+              <Row className="d-flex align-items-center">
+                  <Col xs='auto'>
+                      <DropdownButton 
+                          id="dropdown-basic-button" 
+                          title={dropdownTitle} 
+                          variant="primary" 
+                          onSelect={(eventKey, event) => setDropdownTitle(eventKey)}
+                      >
+                          <Dropdown.Item eventKey="Name">Name</Dropdown.Item>
+                          <Dropdown.Item eventKey="Chef Name">Chef Name</Dropdown.Item>
+                          <Dropdown.Item eventKey="Cuisine">Cuisine</Dropdown.Item>
+                      </DropdownButton>
+                  </Col>
+                  <Col xs>
+                      <Form role="search" onSubmit={handleSearch}>
+                          <FormControl 
+                              className="form-control" 
+                              type="search" 
+                              placeholder="Search" 
+                              aria-label="Search" 
+                              value={searchTerm} 
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                          />
+                      </Form>
+                  </Col>
+              </Row>
+          </Container>
+      </>
   );
 }
 

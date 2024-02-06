@@ -93,7 +93,8 @@ function SettingsPage() {
         setMessage("Success!")
       };
 
-      const handleDelete = async () => {
+      const handleDelete = async (e) => {
+        e.preventDefault()
         if (!oldPassword) {
           setMessage("Password is required");
           return;
