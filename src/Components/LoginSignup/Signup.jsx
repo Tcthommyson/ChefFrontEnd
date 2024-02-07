@@ -16,6 +16,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [message, setMessage] = useState();
+    const [submitEnabled, setSubmitEnabled] = useState(true)
     const navigate = useNavigate();
 
 // Should also validate and ensure strong password, and limit requests by redirecting
@@ -30,6 +31,9 @@ const SignUp = () => {
     }
 
     const submit = async () => {
+        if(!submitEnabled){
+            return
+        }
         if (!validateName(first)) {
             setMessage("Invalid first name");
             return;
@@ -44,6 +48,7 @@ const SignUp = () => {
             return;
           }
           setEmail(String(email).toLowerCase())
+          setSubmitEnabled(false)
           const response = await fetch("/api/register/", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -62,6 +67,7 @@ const SignUp = () => {
             else{
                 setMessage("Error")
             }
+            setSubmitEnabled(true)
             return
           }
           const content = await response.json()
@@ -69,7 +75,7 @@ const SignUp = () => {
           setMessage("Submitted... Redirecting to login.")
           setTimeout(() => {
             navigate("/login")
-        }, 1000)
+        }, 500)
     }
 
     return (
@@ -86,25 +92,25 @@ const SignUp = () => {
                 <div className="inputs">
                         <div className="input">
                             <img src={user_icon} alt="" />
-                            <input type="firstname" placeholder="First Name" onChange={e => setFirst(e.target.value)}/>
+                            <input type="firstname" placeholder="First Name" maxlength="45" onChange={e => setFirst(e.target.value)}/>
                         </div>
                 </div>
                 <div className="inputs">
                         <div className="input">
                             <img src={user_icon} alt="" />
-                            <input type="lastname" placeholder="Last Name" onChange={e => setLast(e.target.value)}/>
+                            <input type="lastname" placeholder="Last Name" maxlength="45" onChange={e => setLast(e.target.value)}/>
                         </div>
                 </div>
                 <div className="inputs">
                     <div className="input">
                         <img src={email_icon} alt="" />
-                        <input type="email" placeholder="Email ID" onChange={e => setEmail(e.target.value)}/>
+                        <input type="email" placeholder="Email ID" maxlength="45" onChange={e => setEmail(e.target.value)}/>
                     </div>
                 </div>
                 <div className="inputs">
                     <div className="input">
                         <img src={password_icon} alt="" />
-                        <input type="password" placeholder="Password" onChange={e => setPass(e.target.value)}/>
+                        <input type="password" placeholder="Password" maxlength="45" onChange={e => setPass(e.target.value)}/>
                     </div>
                 </div>
 

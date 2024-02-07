@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
-function Post(){
+function Post(){ // Add rate limiting, chef limits
     const [name, setName] = useState('')
     const [desc, setDesc] = useState('')
     const [available, setAvailable] = useState(false)
     const [price, setPrice] = useState(0)
     const [message, setMessage] = useState()
+    const [submitEnabled, setSubmitEnabled] = useState(true)
 
     const navigate = useNavigate()
     useEffect(()=>{
@@ -30,6 +31,7 @@ function Post(){
           setMessage("Please fill out all fields.")
           return
         }
+        setSubmitEnabled(false)
         const response = await fetch("/api/item/", {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -42,16 +44,15 @@ function Post(){
         })
         if(!response.ok){
           setMessage("Error!")
+          setSubmitEnabled(true)
           return;
         }
         setMessage("Success!")
+        setTimeout(() => {
+          navigate("/")
+        }, 500)
     }
 
-    const handlePrice = (e) => {
-      e.preventDefault()
-      var p = Number(e.target.value)
-      setPrice(p.toFixed(2))
-    }
 
     return(
         <div>
@@ -59,12 +60,12 @@ function Post(){
           <Form className='settingform' onSubmit={handleSubmit}>
             <Form.Group controlId="formItemName">
               <Form.Label>Item Name:</Form.Label>
-              <Form.Control type="text" onChange={(event) => setName(event.target.value)} />
+              <Form.Control type="text" maxLength="45" onChange={(event) => setName(event.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="formDescription">
               <Form.Label>Description:</Form.Label>
-              <Form.Control as="textarea" rows={3} onChange={(event) => setDesc(event.target.value)} />
+              <Form.Control as="textarea" rows={3} maxLength="250" onChange={(event) => setDesc(event.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="formAvailable">
@@ -73,10 +74,10 @@ function Post(){
 
             <Form.Group controlId="formPrice">
               <Form.Label>Price:</Form.Label>
-              <Form.Control type="number" step="0.01" min="1.00" max="999.99" onChange={handlePrice} />
+              <Form.Control type="number" step="0.01" min="1.00" max="999.99" onChange={(event) => setPrice(event.target.value)} />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={!submitEnabled}>
               Create
             </Button>
             <div>

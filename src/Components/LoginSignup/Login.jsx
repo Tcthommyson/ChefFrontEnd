@@ -20,7 +20,7 @@ const Login = () => {
         return regex.test(email);
     }
 
-    const submit = async () => {
+    const submit = async () => { // Add submit disabled?
         if(!validateEmail(email)){
             setMessage("Invalid email.")
             return;
@@ -65,13 +65,13 @@ const Login = () => {
                     <div className="inputs">
                         <div className="input">
                             <img src={email_icon} alt="" />
-                            <input type="email" placeholder="Email ID" onChange={e => setEmail(e.target.value)}/>
+                            <input type="email" placeholder="Email ID" maxlength="45" onChange={e => setEmail(e.target.value)}/>
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={password_icon} alt="" />
-                            <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                            <input type="password" placeholder="Password" maxlength="45" onChange={e => setPassword(e.target.value)}/>
                         </div>
                     </div>
 

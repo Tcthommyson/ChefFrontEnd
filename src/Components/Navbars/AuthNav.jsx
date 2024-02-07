@@ -30,7 +30,7 @@ function AuthNav() {
             setPfp(content.profilepic)
         }
     })()
-  })
+  }, [])
 
   return (
     <Navbar bg="dark" variant="dark">

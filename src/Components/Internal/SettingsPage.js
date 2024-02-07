@@ -13,6 +13,7 @@ function SettingsPage() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [message, setMessage] = useState('')
+    const [submitEnabled, setSubmitEnabled] = useState(true)
     const navigate = useNavigate()
 
   function validateEmail(email) { 
@@ -71,7 +72,12 @@ function SettingsPage() {
           if(newPassword === confirmNewPassword){
             data['password'] = newPassword
           }
+          else{
+            setMessage("Passwords must match!")
+            return
+          }
         }
+        setSubmitEnabled(false)
         const response = await fetch("/api/user/", {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
@@ -88,9 +94,13 @@ function SettingsPage() {
           else{
               setMessage("Error")
           }
+          setSubmitEnabled(true)
           return
         }
         setMessage("Success!")
+        setTimeout(() => {
+          setSubmitEnabled(true)
+        }, 500)
       };
 
       const handleDelete = async (e) => {
@@ -99,6 +109,7 @@ function SettingsPage() {
           setMessage("Password is required");
           return;
         }
+        setSubmitEnabled(false)
         const response = await fetch("/api/user/", {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
@@ -114,9 +125,13 @@ function SettingsPage() {
           else{
             setMessage("Error")
           }
+          setSubmitEnabled(true)
           return;
         }
         setMessage("Account deleted.")
+        setTimeout(() => {
+          navigate("/")
+        }, 500)
       }
     
       return ( // add delete modal from react-bootstrap
@@ -125,30 +140,30 @@ function SettingsPage() {
         <form className='settingform' onSubmit={handleSubmit}>
           <label>
             First Name:
-            <input type="text" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
+            <input type="text" value={firstName} maxlength="45" onChange={(event) => setFirstName(event.target.value)} />
           </label>
           <label>
             Last Name:
-            <input type="text" value={lastName} onChange={(event) => setLastName(event.target.value)} />
+            <input type="text" value={lastName} maxlength="45" onChange={(event) => setLastName(event.target.value)} />
           </label>
           <label>
             Email:
-            <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+            <input type="email" value={email} maxlength="45" onChange={(event) => setEmail(event.target.value)} />
           </label>
           <label>
             Old Password:
-            <input type="password" value={oldPassword} onChange={(event) => setOldPassword(event.target.value)} />
+            <input type="password" value={oldPassword} maxlength="45" onChange={(event) => setOldPassword(event.target.value)} />
           </label>
           <label>
             New Password:
-            <input type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
+            <input type="password" value={newPassword} maxlength="45" onChange={(event) => setNewPassword(event.target.value)} />
           </label>
           <label>
             Confirm New Password:
-            <input type="password" value={confirmNewPassword} onChange={(event) => setConfirmNewPassword(event.target.value)} />
+            <input type="password" value={confirmNewPassword} maxlength="45" onChange={(event) => setConfirmNewPassword(event.target.value)} />
           </label>
-          <button type="submit">Save Changes</button>
-          <button type="button" className="delbutton" onClick={handleDelete}>DELETE ACCOUNT</button>
+          <button type="submit" disabled={!submitEnabled}>Save Changes</button>
+          <button type="button" className="delbutton" disabled={!submitEnabled} onClick={handleDelete}>DELETE ACCOUNT</button>
           <div>
             {message}
           </div>
