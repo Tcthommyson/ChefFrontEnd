@@ -31,6 +31,8 @@ function Home() {
   const [nextPage, setNextPage] = useState(null)
   const [currentPage, setCurrentPage] = useState('/api/item?page=1');
   const [prevPage, setPrevPage] = useState(null);
+  const [dropdownTitle, setDropdownTitle] = useState('Search by...');
+
 
   useEffect(()=>{
     (async ()=>{
@@ -72,11 +74,21 @@ function Home() {
 
   function SearchBar(){
     const [searchTerm, setSearchTerm] = useState('');
-    const [dropdownTitle, setDropdownTitle] = useState('Search by...');
   
     const handleSearch = (event) => {
       event.preventDefault();
-      console.log(searchTerm); // Check dropdownTitle and search term and setCurrentPage accordingly
+      if(dropdownTitle == 'Search by...'){
+        return
+      }
+      else if(dropdownTitle == 'Name'){
+        setCurrentPage('/api/item?name=' + searchTerm)
+      }
+      else if(dropdownTitle == 'Chef Name'){
+        setCurrentPage('/api/item?chefname=' + searchTerm)
+      }
+      else if(dropdownTitle == 'Cuisine'){
+        setCurrentPage('/api/item?cuisine=' + searchTerm)
+      }
     };
   
     return(

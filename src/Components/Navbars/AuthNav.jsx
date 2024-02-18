@@ -43,7 +43,7 @@ function AuthNav() {
         New Posting
         </Button>
         </Nav.Link>
-        <Nav.Link as={Link} to="/">
+        <Nav.Link as={Link} to="/manage">
         <Button variant="success" className="rounded-pill px-3" type="button">
         Manage Posts
         </Button>
